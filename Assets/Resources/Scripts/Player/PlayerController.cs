@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed = 3f;
     [SerializeField] private float _attackCd = 0.5f;

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6baab0517c440b4396181078a42f526, type: 3}
+  m_Name: InventoryMedkit
+  m_EditorClassIdentifier: 
+  icon: {fileID: 2690274267995810836, guid: e30589a2eb691794898b672994b9b113, type: 3}
+  uniqueItemName: Meat
+  description: Restores health. Has 3 uses.
+  numUses: 3

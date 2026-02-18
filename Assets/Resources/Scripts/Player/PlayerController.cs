@@ -4,8 +4,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed = 3f;
+    [SerializeField] private float _stepDistance = 1f;
     [SerializeField] private float _attackCd = 0.5f;
-    [SerializeField] private LayerMask _collisionLayer;
+    [SerializeField] private LayerMask _solidLayer;
+    [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private LayerMask _hittableLayer;
     [SerializeField] private LayerMask _stairsLayer;
     [SerializeField] private float _interactionRadius = 1f;
@@ -58,35 +60,49 @@ public class PlayerController : MonoBehaviour
 
             if (_inputH != 0 || _inputV != 0)
             {
-                _destinationPoint = transform.position + new Vector3(_inputH, _inputV, 0f);
-                _interactionPoint = _destinationPoint;
+                Vector3 step = new Vector3(_inputH, _inputV, 0f) * _stepDistance;
+                Vector3 target = transform.position + step;
 
-                if (!GetCollision()) //Checks for collision (walls)
+                if (IsSolidAt(target))
                 {
-                    Collider2D stairs = GetStairsCollision(); //Checks for stairs
+                    target = transform.position;
+                    _destinationPoint = target;
+                    _inputH = 0;
+                    _inputV = 0;
+                }
+                else
+                {
+                    Collider2D stairs = GetStairsAt(target);
                     if (stairs != null)
                     {
-                        if (_inputV == 0) //Vertical movement collides with stairs
+                        if (_inputV == 0)
                         {
-                            UseStairs(stairs); 
+                            target = UseStairs(stairs);
                         }
-                        else return;
+                        else
+                        {
+                            return;
+                        }
                     }
                     else
                     {
-                        int nextHeight = GetDestinationHeight(_destinationPoint);
+                        int nextHeight = GetDestinationHeight(target);
                         if (_currentHeight != nextHeight) return;
                     }
-                    StartCoroutine(Move());
+
+                    _destinationPoint = target;
                 }
+                StartCoroutine(Move());
+
             }
         }
     }
 
     private int GetDestinationHeight(Vector3 dest)
     {
-        Collider2D c = Physics2D.OverlapCircle(dest, 0.1f);
-        switch(c.tag)
+        Collider2D c = Physics2D.OverlapCircle(dest, 0.1f, _groundLayer);
+        if (c == null) return _currentHeight;
+        switch (c.tag)
         {
             case "Ground3": return 3;
             case "Ground2": return 2;
@@ -94,18 +110,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void UseStairs(Collider2D stairs)
+    private Vector3 UseStairs(Collider2D stairs)
     {
+        Vector3 target = transform.position;
+
         if (stairs.CompareTag("RightStairs"))
         {
             if (_inputH > 0)
             {
-                _destinationPoint = transform.position + new Vector3(2, -1, 0f);
+                target += new Vector3(2f, -1f, 0f);
                 _currentHeight--;
             }
             else if (_inputH < 0)
             {
-                _destinationPoint = transform.position + new Vector3(-2, 1, 0f);
+                target += new Vector3(-2f, 1f, 0f);
                 _currentHeight++;
             }
         }
@@ -113,33 +131,36 @@ public class PlayerController : MonoBehaviour
         {
             if (_inputH > 0)
             {
-                _destinationPoint = transform.position + new Vector3(2, 1, 0f);
+                target += new Vector3(2f, 1f, 0f);
                 _currentHeight++;
             }
             else if (_inputH < 0)
             {
-                _destinationPoint = transform.position + new Vector3(-2, -1, 0f);
+                target += new Vector3(-2f, -1f, 0f);
                 _currentHeight--;
             }
         }
-        _interactionPoint = _destinationPoint;
+
+        return target;
     }
-    private bool GetCollision() {
-        return Physics2D.OverlapCircle(_interactionPoint, _interactionRadius, _collisionLayer);
+    private bool IsSolidAt(Vector3 point)
+    {
+        return Physics2D.OverlapCircle(point, _interactionRadius, _solidLayer) != null;
     }
 
-    private Collider2D GetStairsCollision()
+    private Collider2D GetStairsAt(Vector3 point)
     {
-        return Physics2D.OverlapCircle(_interactionPoint, _interactionRadius, _stairsLayer);
+        return Physics2D.OverlapCircle(point, _interactionRadius, _stairsLayer);
     }
     private IEnumerator Move()
     {
         _isMoving = true;
-        while (transform.position != _destinationPoint)
+        while (Vector3.Distance(transform.position, _destinationPoint) > 0.001f)
         {
             transform.position = Vector3.MoveTowards(transform.position, _destinationPoint, _movementSpeed * Time.deltaTime);
             yield return null;
         }
+        transform.position = _destinationPoint;
         _interactionPoint = _destinationPoint;
         _isMoving = false;
     }

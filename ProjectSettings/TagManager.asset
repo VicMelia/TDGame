@@ -19,8 +19,8 @@ TagManager:
   - Collisions
   - Stairs
   - Hittable
-  - 
-  - 
+  - Pickups
+  - Ground
   - 
   - 
   - 

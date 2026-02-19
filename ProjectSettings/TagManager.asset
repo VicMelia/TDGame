@@ -9,6 +9,7 @@ TagManager:
   - Ground3
   - Ground2
   - Ground1
+  - Enemy
   layers:
   - Default
   - TransparentFX

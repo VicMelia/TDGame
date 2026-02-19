@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : BaseCharacter
 {
@@ -14,6 +15,7 @@ public class PlayerController : BaseCharacter
     [SerializeField] private LayerMask _hittableLayer;
     [SerializeField] private float _hitRadius = 0.35f;
     [SerializeField] private float _hitOffset = 1f;
+    [SerializeField] private Life _life;
     private bool _isInventoryOpen;
     private bool _isDead;
     private bool _isAttacking;
@@ -205,10 +207,12 @@ public class PlayerController : BaseCharacter
     {
         Gizmos.DrawWireSphere(transform.position + Vector3.right, _hitRadius);
     }
+    
     public void TakeDamage(int dmg)
     {
         if (_isDead || _invulnerable) return;
         if (dmg <= 0) return;
+        _life.OnHitReceived(dmg);
         _currentHealth -= dmg;
         Debug.Log("Me hace 1 de damage");
         if (_currentHealth < 0) _currentHealth = 0;
@@ -230,8 +234,14 @@ public class PlayerController : BaseCharacter
     protected override void Die()
     {
         base.Die();
-        Debug.Log("Player died");
         _isDead = true;
+        StartCoroutine(ReturnToMenu());
+    }
+
+    IEnumerator ReturnToMenu()
+    {
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("MainMenu");
     }
 
     public bool IsDead()

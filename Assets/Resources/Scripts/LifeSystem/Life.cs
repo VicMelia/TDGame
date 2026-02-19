@@ -9,7 +9,7 @@ public class Life : MonoBehaviour
     
     [Header("Debug")]
     [SerializeField] float debugHitDamage = 0.1f;
-    [SerializeField] bool debugReceiveHit = false;
+    [SerializeField] bool debugReceiveHit;
     float currentLife;
 
     private void OnValidate()

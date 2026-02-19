@@ -8,6 +8,8 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] PlayerController owner;
     public static InventoryUI instance;
     GridLayoutGroup gridLayout;
+
+    private Canvas _inventoryCanvas;
     void Awake()
     {
         if (instance != null)
@@ -16,6 +18,13 @@ public class InventoryUI : MonoBehaviour
         }
         instance = this;
         gridLayout = GetComponentInChildren<GridLayoutGroup>();
+        _inventoryCanvas = GetComponent<Canvas>();
+        _inventoryCanvas.enabled = false;
+    }
+
+    public void OpenInventory(bool open)
+    {
+        _inventoryCanvas.enabled = open;
     }
 
     public void NotifyItemPicked(InventoryItemDefinition itemDefinition)

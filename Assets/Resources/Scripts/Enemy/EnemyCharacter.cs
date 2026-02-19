@@ -26,7 +26,7 @@ public class EnemyCharacter : BaseCharacter
     {
         if (_player == null) return;
         Transform closestTarget = _sight2D.GetClosestTarget();
-        Debug.Log(closestTarget);
+        //Debug.Log(closestTarget);
         if (closestTarget == null)
         {
             SetAnimMove(0, 0);

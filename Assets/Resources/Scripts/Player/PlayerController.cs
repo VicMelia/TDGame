@@ -14,6 +14,7 @@ public class PlayerController : BaseCharacter
     [SerializeField] private LayerMask _hittableLayer;
     [SerializeField] private float _hitRadius = 0.35f;
     [SerializeField] private float _hitOffset = 1f;
+    private bool _isInventoryOpen;
     private bool _isDead;
     private bool _isAttacking;
     private bool _canAttack = true;
@@ -25,6 +26,7 @@ public class PlayerController : BaseCharacter
     private Vector3 _destinationPoint;
     private bool _isMoving;
     private int _currentHeight = 2;
+    private bool _canMove = true;
 
     protected override void Awake()
     {
@@ -36,11 +38,13 @@ public class PlayerController : BaseCharacter
     private void Update()
     {
         if (_isMoving || _isDead || _isAttacking) return;
+        if (!_canMove) return;
         if (_canAttack && Input.GetKeyDown(KeyCode.F))
         {
             StartCoroutine(Attack());
             return;
         }
+        if (Input.GetKeyDown(KeyCode.E)) ShowInventory();
         _inputH = Input.GetAxisRaw("Horizontal");
         _inputV = Input.GetAxisRaw("Vertical");
         if (_inputH != 0) _inputV = 0;
@@ -81,6 +85,16 @@ public class PlayerController : BaseCharacter
         }
         _destinationPoint = target;
         StartCoroutine(MoveStep());
+    }
+    private void ShowInventory()
+    {
+        _isInventoryOpen = !_isInventoryOpen;
+        InventoryUI.instance.OpenInventory(_isInventoryOpen);
+    }
+
+    public void SetMovement(bool canMove)
+    {
+        _canMove = canMove;
     }
     private IEnumerator MoveStep() //Grid movement
     {

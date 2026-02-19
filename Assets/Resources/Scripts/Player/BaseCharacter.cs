@@ -1,9 +1,11 @@
 using UnityEngine;
-public class BaseCharacter : MonoBehaviour
+public abstract class BaseCharacter : MonoBehaviour, IVisible2D
 {
     [SerializeField] protected float _moveSpeed = 3f;
     protected SpriteRenderer _sr;
     protected Animator _anim;
+    [SerializeField] protected int _priority = 0;
+    [SerializeField] protected IVisible2D.Side _side;
 
     protected virtual void Awake()
     {
@@ -29,5 +31,15 @@ public class BaseCharacter : MonoBehaviour
         if (_anim == null) return;
         _anim.SetFloat("InputH", Mathf.Abs(inputH));
         _anim.SetFloat("InputV", Mathf.Abs(inputV));
+    }
+
+    int IVisible2D.GetPriority()
+    {
+        return _priority;
+    }
+
+    IVisible2D.Side IVisible2D.GetSide()
+    {
+        return _side;
     }
 }

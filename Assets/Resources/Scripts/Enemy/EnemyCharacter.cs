@@ -37,7 +37,7 @@ public class EnemyCharacter : BaseCharacter
         float dist = Vector2.Distance(transform.position, closestTarget.position);
         if (dist <= _attackRange)
         {
-            TryAttack();
+            if(closestTarget.CompareTag("Player")) TryAttack();
             SetAnimMove(0, 0);
             return;
         }

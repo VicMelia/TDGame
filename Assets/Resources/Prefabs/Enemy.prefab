@@ -78,8 +78,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1836320435
-  m_SortingLayer: 2
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 10
   m_Sprite: {fileID: 7384290322352760091, guid: b070cd26f59c4f941aec95667f637a74, type: 3}
   m_Color: {r: 0.9622642, g: 0.9622642, b: 0.9622642, a: 1}
@@ -202,6 +202,7 @@ MonoBehaviour:
   _moveSpeed: 1
   _priority: 0
   _side: 1
+  _deathEffect: {fileID: 2504986162201500915, guid: c26a3228b44a52b4789e36614410f849, type: 3}
   _player: {fileID: 0}
   _stopDistance: 1
   _attackRange: 1

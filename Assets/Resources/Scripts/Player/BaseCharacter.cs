@@ -6,6 +6,7 @@ public abstract class BaseCharacter : MonoBehaviour, IVisible2D
     protected Animator _anim;
     [SerializeField] protected int _priority = 0;
     [SerializeField] protected IVisible2D.Side _side;
+    [SerializeField] protected ParticleSystem _deathEffect;
 
     protected virtual void Awake()
     {
@@ -31,6 +32,12 @@ public abstract class BaseCharacter : MonoBehaviour, IVisible2D
         if (_anim == null) return;
         _anim.SetFloat("InputH", Mathf.Abs(inputH));
         _anim.SetFloat("InputV", Mathf.Abs(inputV));
+    }
+
+    protected virtual void Die()
+    {
+        _sr.enabled = false;
+        Instantiate(_deathEffect, transform.position, Quaternion.identity);
     }
 
     int IVisible2D.GetPriority()

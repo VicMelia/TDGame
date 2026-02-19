@@ -174,7 +174,7 @@ public class PlayerController : BaseCharacter
             if (enemy != null)
             {
                 enemy.TakeDamage(1);
-                Debug.Log("Le hago daño");
+                Debug.Log("Le hago daï¿½o");
             }
         }
         yield return new WaitForSeconds(0.5f);
@@ -193,7 +193,7 @@ public class PlayerController : BaseCharacter
     }
     public void TakeDamage(int dmg)
     {
-        if (_invulnerable) return;
+        if (_isDead || _invulnerable) return;
         if (dmg <= 0) return;
         _currentHealth -= dmg;
         Debug.Log("Me hace 1 de damage");
@@ -213,10 +213,15 @@ public class PlayerController : BaseCharacter
         _invulnerable = false;
     }
 
-    private void Die()
+    protected override void Die()
     {
+        base.Die();
         Debug.Log("Player died");
-        _isMoving = true;
-        //TO DO: Animation OR VFX
+        _isDead = true;
+    }
+
+    public bool IsDead()
+    {
+        return _isDead;
     }
 }

@@ -37,7 +37,8 @@ public class EnemyCharacter : BaseCharacter
         float dist = Vector2.Distance(transform.position, closestTarget.position);
         if (dist <= _attackRange)
         {
-            if(closestTarget.CompareTag("Player")) TryAttack();
+            PlayerController player = closestTarget.GetComponent<PlayerController>();
+            if(player != null && !player.IsDead() && closestTarget.CompareTag("Player")) TryAttack();
             SetAnimMove(0, 0);
             return;
         }
@@ -75,8 +76,9 @@ public class EnemyCharacter : BaseCharacter
             Die();
         }
     }
-    private void Die()
+    protected override void Die()
     {
+        base.Die();
         _isDead = true;
         Debug.Log("Enemy died");
         Destroy(gameObject);

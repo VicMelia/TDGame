@@ -44,6 +44,20 @@ public class InventoryUI : MonoBehaviour
         return Array.Find(items, item => item.definition.uniqueItemName == keyDefinition.uniqueItemName) != null;
     }
 
+    public int HowMany(InventoryItemDefinition keyDefinition)
+    {
+        InventoryItemUI[] items = GetComponentsInChildren<InventoryItemUI>();
+        int itemCount = 0;
+        foreach (InventoryItemUI item in items)
+        {
+            if (item.definition.uniqueItemName == keyDefinition.uniqueItemName)
+            {
+                itemCount++;
+            }
+        }
+        return itemCount;
+    }
+
     internal void Consume(InventoryItemDefinition keyDefinition)
     {
         InventoryItemUI[] items = GetComponentsInChildren<InventoryItemUI>();

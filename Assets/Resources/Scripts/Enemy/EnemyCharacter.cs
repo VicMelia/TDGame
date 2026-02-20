@@ -85,11 +85,8 @@ public class EnemyCharacter : BaseCharacter
     {
         base.Die();
         _isDead = true;
-        if(Random.Range(0f, 1f) < 0.55f)
-        {
-            int index = Random.Range(0, _deathDrops.Length);
-            Instantiate(_deathDrops[index], transform.position, Quaternion.identity);
-        }
+        int index = Random.Range(0, _deathDrops.Length);
+        Instantiate(_deathDrops[index], transform.position, Quaternion.identity);
         _spawner.OnEnemyDefeated();
         Destroy(gameObject);
     }

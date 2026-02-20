@@ -85,6 +85,8 @@ public class PlayerController : BaseCharacter
                 return;
             }
         }
+                target = new Vector3(Mathf.FloorToInt(target.x) + 0.5f, Mathf.FloorToInt(target.y) +.7f, 0f);
+
         _destinationPoint = target;
         StartCoroutine(MoveStep());
     }

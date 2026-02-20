@@ -18,11 +18,6 @@ public class LifeBar : MonoBehaviour
     }
     void OnDisable()
     {
-        if(life == null)
-        {
-            Debug.LogError("Please assign a Life component to the LifeBar.");
-            return;
-        }
         life.onLifeChanged.RemoveListener(OnLifeChanged);
         life.onDeath.RemoveListener(OnDeath);
     }

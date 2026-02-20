@@ -26,7 +26,7 @@ public abstract class BaseCharacter : MonoBehaviour, IVisible2D
         transform.position = Vector3.MoveTowards(before, targetPosition, _moveSpeed * Time.deltaTime);
         return Vector3.Distance(transform.position, targetPosition);
     }
-
+    
     protected void SetAnimMove(float inputH, float inputV)
     {
         if (_anim == null) return;

@@ -43,6 +43,7 @@ public class InventoryItemUI : MonoBehaviour
     }
     void OnUse()
     {
+        SoundManager.Instance.PlaySfx("ClickBoton");
         inventoryUI.NotifyInventoryItemUsed(definition);
         if (--definition.numUses <= 0)
         {
@@ -51,10 +52,12 @@ public class InventoryItemUI : MonoBehaviour
     }
     void OnDiscard()
     {
+        SoundManager.Instance.PlaySfx("ClickBoton");
         Destroy(gameObject);
     }
     void OnInfo()
     {
+        SoundManager.Instance.PlaySfx("ClickBoton");
         descriptionPanel.SetActive(!descriptionPanel.activeSelf);
     }
 }

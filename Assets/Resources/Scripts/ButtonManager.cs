@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour
 {
+    [SerializeField] GameObject _settingsPanel;
     [SerializeField] private Image _leftImage;
     [SerializeField] private Image[] _midImage;
     [SerializeField] private Image _rightImage;
@@ -25,6 +26,7 @@ public class ButtonManager : MonoBehaviour
 
     private void Start()
     {
+        SoundManager.Instance.PlayMusic("MainMenuMusic");
         _originalLeftSprite = _leftImage.sprite;
         _originalMidSprite = _midImage[0].sprite;
         _originalRightSprite = _rightImage.sprite;
@@ -67,11 +69,19 @@ public class ButtonManager : MonoBehaviour
 
     public void Play()
     {
+        SoundManager.Instance.PlaySfx("ClickBoton");
         SceneManager.LoadScene("Gameplay");
+    }
+
+    public void Settings()
+    {
+        SoundManager.Instance.PlaySfx("ClickBoton");
+        _settingsPanel.SetActive(!_settingsPanel.activeSelf);
     }
 
     public void Exit()
     {
+        SoundManager.Instance.PlaySfx("ClickBoton");
         Application.Quit();
     }
 

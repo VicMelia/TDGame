@@ -24,6 +24,7 @@ public class InventoryUI : MonoBehaviour
 
     public void OpenInventory(bool open)
     {
+        SoundManager.Instance.PlaySfx("AbrirInventario");
         _inventoryCanvas.enabled = open;
     }
 

@@ -36,6 +36,11 @@ public class PlayerController : BaseCharacter
         _currentHealth = _maxHealth;
         _destinationPoint = transform.position;
     }
+    void Start()
+    {
+        SoundManager.Instance.PlayMusic("GameplayMusic");
+        StartCoroutine(Steps());
+    }
 
     private void Update()
     {
@@ -100,6 +105,15 @@ public class PlayerController : BaseCharacter
     {
         _canMove = canMove;
     }
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Door"))
+        {
+            _destinationPoint = new Vector3(Mathf.FloorToInt(transform.position.x) + 0.5f, Mathf.FloorToInt(transform.position.y) +.7f, 0f);
+             return;
+        }
+    }
+
     private IEnumerator MoveStep() //Grid movement
     {
         _isMoving = true;
@@ -112,6 +126,18 @@ public class PlayerController : BaseCharacter
         _isMoving = false;
         _inputH = 0;
         _inputV = 0;
+    }
+    IEnumerator Steps()
+    {
+        while (true)
+        {
+            if(_isMoving)
+            {
+                SoundManager.Instance.PlaySfx("SonidoCaminar1 (2)");
+                yield return new WaitForSeconds(0.3f);
+            }
+            yield return null;
+        }
     }
     private bool IsSolidAt(Vector3 point)
     {
@@ -192,6 +218,7 @@ public class PlayerController : BaseCharacter
             h.TryGetComponent<EnemyCharacter>(out EnemyCharacter enemy);
             if (enemy != null)
             {
+                SoundManager.Instance.PlaySfx("GolpearEnemigo");
                 enemy.TakeDamage(1);
                 Debug.Log("Le hago daño");
             }
@@ -215,6 +242,7 @@ public class PlayerController : BaseCharacter
     {
         if (_isDead || _invulnerable) return;
         if (dmg <= 0) return;
+        SoundManager.Instance.PlaySfx("RecibirGolpe");
         _life.OnHitReceived(dmg);
         _currentHealth -= dmg;
         Debug.Log("Me hace 1 de damage");
@@ -256,6 +284,7 @@ public class PlayerController : BaseCharacter
     {
         if (itemDefinition.uniqueItemName.Contains("Meat"))
         {
+            SoundManager.Instance.PlaySfx("Curar");
             _currentHealth++;
             _life.RecoverLife(1f);
         }

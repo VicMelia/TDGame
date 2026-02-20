@@ -113,10 +113,6 @@ public class SoundManager : MonoBehaviour
     public void SetMusicVolume(float value)
     {
         musicValue = value;
-        if(musicValue < 0.001)
-        {
-            musicValue = 0.001f;
-        }
         
         if (musicSource != null) musicSource.volume = musicValue;
     }
@@ -124,10 +120,7 @@ public class SoundManager : MonoBehaviour
     public void SetSfxVolume(float value)
     {
         sfxValue = value;
-        if(sfxValue < 0.001)
-        {
-            sfxValue = 0.001f;
-        }
+        
     }
 
     public float GetMusicVolume()

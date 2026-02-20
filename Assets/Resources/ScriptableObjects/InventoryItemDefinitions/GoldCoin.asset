@@ -15,4 +15,4 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 75f4244f98d120644b8f753e8afa78fe, type: 3}
   uniqueItemName: Gold Coin
   description: One of the four coins. Collect all four and get to the castle to win.
-  numUses: 1
+  numUses: -1

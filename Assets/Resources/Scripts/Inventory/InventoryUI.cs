@@ -35,8 +35,7 @@ public class InventoryUI : MonoBehaviour
 
     public void NotifyInventoryItemUsed(InventoryItemDefinition itemDefinition)
     {
-        Debug.LogWarning("Create the logic to use items in player controller");
-        //owner.NotifyInventoryItemUsed(itemDefinition);
+        owner.NotifyInventoryItemUsed(itemDefinition);
     }
 
     internal bool Contains(InventoryItemDefinition keyDefinition)

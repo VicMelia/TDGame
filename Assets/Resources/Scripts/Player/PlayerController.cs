@@ -186,11 +186,12 @@ public class PlayerController : BaseCharacter
         Collider2D[] hits = Physics2D.OverlapCircleAll(hitPoint, _hitRadius, _hittableLayer);
         foreach (var h in hits)
         {
-            EnemyCharacter enemy = h.GetComponent<EnemyCharacter>();
+            if (h == null) continue;
+            h.TryGetComponent<EnemyCharacter>(out EnemyCharacter enemy);
             if (enemy != null)
             {
                 enemy.TakeDamage(1);
-                Debug.Log("Le hago da�o");
+                Debug.Log("Le hago daño");
             }
         }
         yield return new WaitForSeconds(0.5f);
@@ -247,5 +248,14 @@ public class PlayerController : BaseCharacter
     public bool IsDead()
     {
         return _isDead;
+    }
+
+    public void NotifyInventoryItemUsed(InventoryItemDefinition itemDefinition)
+    {
+        if (itemDefinition.uniqueItemName.Contains("Meat"))
+        {
+            _currentHealth++;
+            _life.RecoverLife(1f);
+        }
     }
 }

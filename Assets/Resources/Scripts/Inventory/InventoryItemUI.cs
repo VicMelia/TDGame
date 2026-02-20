@@ -44,6 +44,10 @@ public class InventoryItemUI : MonoBehaviour
     void OnUse()
     {
         SoundManager.Instance.PlaySfx("ClickBoton");
+        if(definition.numUses <= 0)
+        {
+            return;
+        }
         inventoryUI.NotifyInventoryItemUsed(definition);
         if (--definition.numUses <= 0)
         {
